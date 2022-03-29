@@ -1,0 +1,2 @@
+# mapmain
+map index
