@@ -35,6 +35,9 @@ body {
 
 ol, ul {
 	list-style: none;
+	display:flex;
+    	align-content:flex-start;
+    	flex-wrap:wrap;
 }
 
 blockquote, q {
@@ -2414,6 +2417,7 @@ input, select, textarea {
 
 		ul li {
 			padding-left: 0.5em;
+			margin-bottom: 10px;
 		}
 
 		ul.alt {
