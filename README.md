@@ -20,7 +20,7 @@ https://kimhyun-ju.github.io/mapmain/
 - tutle's moving loute
 ## 8. lottoshop map
 - 한국에 있는 로또판매점 위치를 매핑한 지도(2022년 4월 기준)
-## 9. swim pool map
+## 9. swimming pool map
 - 한국에 있는 수영장(국, 공립제외 더 정확하게는 수영장업으로 등록된 897개소) 위치를 매핑한 지도(2023년 5월 기준)
 
 # 설명
