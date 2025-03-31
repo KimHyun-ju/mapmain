@@ -11,7 +11,6 @@ class AboardLotto:
             "singapore_lotto": self.singapore_get(),
             "swiss_lotto": self.swiss_get(),
             "south_africa_lotto": self.south_africa_get(),
-            "philippine_lotto": self.philippine_get(),
             "nederland_lotto": self.nederland_get(),
             "newzealand_lotto": self.newzealand_get(),
             "newyork_lotto": self.newyork_get(),
@@ -145,25 +144,7 @@ class AboardLotto:
             main_numbers = ["-", "-", "-", "-", "-", "-", "-", "-"]
         return main_numbers
 
-    def philippine_get(self): # 번호 6개
-        try:
-            url = "https://www.pcso.gov.ph/SearchLottoResult.aspx"
-            headers = {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
-            }
-            response = requests.get(url, headers=headers)
-            html = response.text
-            pattern = r"<td[^>]*>\s*Megalotto 6/45\s*</td>\s*<td[^>]*>\s*([\d\-]+)\s*</td>\s*<td[^>]*>\s*([\d/]+)\s*</td>"
-            match = re.search(pattern, html)
-            winning_numbers = list(map(str, sorted(match.group(1).split("-"), key=int)))
-            winning_numbers = list(map(str, winning_numbers))
-            draw_date = match.group(2).split("/")[:-1]
-            month, day = draw_date
-            date_out = str(int(month)) + "월 " + str(int(day)) + "일"
-            winning_numbers.insert(0, date_out)
-        except:
-            winning_numbers = ["-", "-", "-", "-", "-", "-", "-"]
-        return winning_numbers
+    
 
     def nederland_get(self): # 번호 6개 보너스 1개
         try:
