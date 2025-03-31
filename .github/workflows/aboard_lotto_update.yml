@@ -32,5 +32,5 @@ jobs:
       - name: 변경 사항 커밋 및 푸시
         run: |
           git add aboard_lotto.json
-          git commit -m "Force update aboard_lotto.json"
+          git commit --allow-empty -m "Force update aboard_lotto.json"
           git push origin main
