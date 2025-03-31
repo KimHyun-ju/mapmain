@@ -148,7 +148,10 @@ class AboardLotto:
     def philippine_get(self): # 번호 6개
         try:
             url = "https://www.pcso.gov.ph/SearchLottoResult.aspx"
-            response = requests.get(url)
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
+            }
+            response = requests.get(url, headers=headers)
             html = response.text
             pattern = r"<td[^>]*>\s*Megalotto 6/45\s*</td>\s*<td[^>]*>\s*([\d\-]+)\s*</td>\s*<td[^>]*>\s*([\d/]+)\s*</td>"
             match = re.search(pattern, html)
