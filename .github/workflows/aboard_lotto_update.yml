@@ -1,0 +1,36 @@
+name: Update Aboard Lotto Results
+
+on:
+  schedule:
+    - cron: "0 0 * * *"  # 매일 00:00 UTC 실행 (한국 시간 09:00)
+  workflow_dispatch:  # 수동 실행도 가능
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 레포지토리 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Python 설정
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: 의존성 설치
+        run: pip install requests
+
+      - name: 로또 데이터 업데이트 실행
+        run: python aboard_lotto.py  # 🚨 'your_script.py'를 실제 파일명으로 변경
+
+      - name: Git 설정
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: 변경 사항 커밋 및 푸시
+        run: |
+          git add aboard_lotto.json
+          git commit -m "자동 업데이트: 최신 로또 데이터"
+          git push
