@@ -130,7 +130,7 @@ class AboardLotto:
             draw_date = date_match.group(1) if date_match else None
             date_list = draw_date.split("-")[1:]
             month, day = date_list
-            date_out = str(int(month)) + "월 " + day + "일"
+            date_out = str(int(month)) + "월 " + str(int(day)) + "일"
             # 당첨번호 추출
             numbers_pattern = r'<li class="ball ball\d+ active"><div class="shape"><span>(\d+)</span></div></li>'
             numbers_raw = re.findall(numbers_pattern, html)
