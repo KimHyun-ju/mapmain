@@ -163,7 +163,7 @@ class AboardLotto:
             day, dutch_month, year = match_date.groups()
             month = month_map.get(dutch_month, dutch_month)  # 영어 월로 변환
             date_out = month + day + "일"
-            pattern = r'ticketNumberNumber_oxjw1_21">(\d+)</span>'
+            pattern = r'ticketNumberNumber_tttfw_21">(\d+)</span>'
             winning_numbers = re.findall(pattern, html)[:7]
             winning_numbers.insert(0, date_out)
         except:
