@@ -169,7 +169,8 @@ class AboardLotto:
         except:
             winning_numbers = ["-", "-", "-", "-", "-", "-", "-", "-"]
         if len(winning_numbers) < 8:
-            winning_numbers = ["-", "-", "-", "-", "-", "-", "-", "-"]
+            winning_numbers = ["-", "-", "-", "-", "-", "-", "-"]
+            winning_numbers.insert(0, date_out)
         return winning_numbers
 
     def newzealand_get(self): # 번호 6개 보너스 1개
