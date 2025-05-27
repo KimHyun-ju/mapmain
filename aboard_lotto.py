@@ -169,7 +169,7 @@ class AboardLotto:
         except:
             winning_numbers = ["-", "-", "-", "-", "-", "-", "-", "-"]
         if len(winning_numbers) < 8:
-            winning_numbers = ["-", "-", "-", "-", "-", "-", "-"]
+            winning_numbers = ["99", "99", "99", "99", "99", "99", "99"]
             winning_numbers.insert(0, date_out)
         return winning_numbers
 
