@@ -52,8 +52,8 @@ class AboardLotto:
             number_6.insert(0, date_6_str)
             number_7.insert(0, date_7_str)
         except:
-            number_6 = ["-", "-", "-", "-", "-", "-", "-", "-"]
-            number_7 = ["-", "-", "-", "-", "-", "-", "-", "-", "-", "-"]
+            number_6 = ["99"] * 8
+            number_7 = ["99"] * 9
         """날짜, 1,2,3,4,5,6 또는 7, 그리고 보너스"""
         return number_6, number_7
 
@@ -81,7 +81,7 @@ class AboardLotto:
             main_numbers.append(additional_number)
             main_numbers.insert(0, formatted_date)
         except:
-            main_numbers = ["-", "-", "-", "-", "-", "-", "-", "-"]
+            main_numbers = ["99"] * 8
         return main_numbers
 
     def swiss_get(self): # 번호 6개 보너스 1개
@@ -113,7 +113,7 @@ class AboardLotto:
             main_numbers.append(lucky_number)
             main_numbers.insert(0, formatted_date)
         except:
-            main_numbers = ["-", "-", "-", "-", "-", "-", "-", "-"]
+            main_numbers = ["99"] * 8
         return main_numbers
 
     def south_africa_get(self):  # 번호 6개 보너스 1개
@@ -141,36 +141,71 @@ class AboardLotto:
             main_numbers.append(bonus_number)
             main_numbers.insert(0, date_out)
         except:
-            main_numbers = ["-", "-", "-", "-", "-", "-", "-", "-"]
+            main_numbers = ["99"] * 8
         return main_numbers
 
     
-
-    def nederland_get(self): # 번호 6개 보너스 1개
+    def nederland_get(self):
         try:
             url = "https://lotto.nederlandseloterij.nl/trekkingsuitslag"
             response = requests.get(url)
             html = response.text
+    
+            # 날짜 추출 (적절히 수정 필요, 우선 생략하거나 기존 코드 활용)
             month_map = {
                 "januari": "1월 ", "februari": "2월 ", "maart": "3월 ",
                 "april": "4월 ", "mei": "5월 ", "juni": "6월 ",
                 "juli": "7월 ", "augustus": "8월 ", "september": "9월 ",
                 "oktober": "10월 ", "november": "11월 ", "december": "12월 "
             }
-            # 정규식 패턴 (날짜 추출)
             pattern_date = r'(\d{1,2}) (\w+) (\d{4})'
             match_date = re.search(pattern_date, html)
-            day, dutch_month, year = match_date.groups()
-            month = month_map.get(dutch_month, dutch_month)  # 영어 월로 변환
-            date_out = month + day + "일"
-            pattern = r'ticketNumberNumber_tttfw_21">(\d+)</span>'
-            winning_numbers = re.findall(pattern, html)[:7]
-            winning_numbers.insert(0, date_out)
-        except:
-            winning_numbers = ["-", "-", "-", "-", "-", "-", "-", "-"]
-        if len(winning_numbers) < 8:
-            winning_numbers = ["99", "99", "99", "99", "99", "99", "99"]
-            winning_numbers.insert(0, date_out)
+            if match_date:
+                day, dutch_month, year = match_date.groups()
+                month = month_map.get(dutch_month, dutch_month)
+                date_out = month + day + "일"
+            else:
+                date_out = "99"
+    
+            # 1) 당첨 번호 리스트 영역 추출 (data-test 속성 활용)
+            pattern_ul = r'<ul[^>]*data-test="winning-numbers-ball-container"[^>]*>(.*?)</ul>'
+            ul_match = re.search(pattern_ul, html, re.DOTALL)
+            if not ul_match:
+                return ["99"] * 8
+            ul_content = ul_match.group(1)
+    
+            # 2) 일반 번호 추출 (title="Reservegetal" 없는 li 안의 숫자)
+            # li 태그로 쪼개서 title이 없는 쪽 숫자만 뽑기
+            li_pattern = r'<li(.*?)>(.*?)</li>'
+            lis = re.findall(li_pattern, ul_content, re.DOTALL)
+    
+            normal_numbers = []
+            bonus_number = None
+    
+            for attrs, content in lis:
+                if 'title="Reservegetal' in attrs:
+                    # 보너스 번호 li
+                    number_match = re.search(r'<span[^>]*>(\d{1,2})</span>', content)
+                    if number_match:
+                        bonus_number = number_match.group(1)
+                else:
+                    # 일반 번호 li
+                    number_match = re.search(r'<span[^>]*>(\d{1,2})</span>', content)
+                    if number_match:
+                        normal_numbers.append(number_match.group(1))
+    
+            # 번호 6개 + 보너스 1개
+            if len(normal_numbers) < 6:
+                normal_numbers += ["99"] * (6 - len(normal_numbers))
+            if not bonus_number:
+                bonus_number = "99"
+    
+            winning_numbers = [date_out] + normal_numbers[:6] + [bonus_number]
+    
+        except Exception as e:
+            print("Error:", e)
+            winning_numbers = ["99"] * 8
+    
         return winning_numbers
 
     def newzealand_get(self): # 번호 6개 보너스 1개
@@ -185,7 +220,7 @@ class AboardLotto:
             winning_numbers.append(bonus_ball)
             winning_numbers.insert(0, date_out)
         except:
-            winning_numbers = ["-", "-", "-", "-", "-", "-", "-", "-"]
+            winning_numbers = ["99"] * 8
         return winning_numbers
 
     def newyork_get(self):
@@ -201,7 +236,7 @@ class AboardLotto:
             winning_numbers.append(bonus_number)
             winning_numbers.insert(0, date_out)
         except:
-            winning_numbers = ["-", "-", "-", "-", "-", "-", "-", "-"]
+            winning_numbers = ["99"] * 8
         return winning_numbers
 
     def euro_get(self):
@@ -239,7 +274,7 @@ class AboardLotto:
             result = draw_results[0]
             output = [result["date"], *result["numbers"], *result["lucky_numbers"]]
         except:
-            output = ["-", "-", "-", "-", "-", "-", "-", "-"]
+            output = ["99"] * 8
         return output
 
 if __name__ == "__main__":
