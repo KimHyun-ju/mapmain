@@ -104,6 +104,8 @@ class AboardLotto:
                 formatted_date = f"{month_map[month]} {int(day)}일"
             else:
                 formatted_date = "날짜 없음"
+                main_numbers = ["99"] * 8
+                return main_numbers
 
             # 메인 로또 번호 찾기
             main_numbers_all = re.findall(r'<li[^>]*actual-numbers__number___normal[^>]*>\s*<span[^>]*>(\d+)</span>', html)
