@@ -58,7 +58,7 @@ class AboardLotto:
         """날짜, 1,2,3,4,5,6 또는 7, 그리고 보너스"""
         if len(number_6) != 8:
             number_6 = ["99"] * 8
-        if len(number_7) != 9:
+        if len(number_7) != 10:
             number_7 = ["99"] * 9
         return number_6, number_7
 
@@ -301,3 +301,4 @@ class AboardLotto:
 if __name__ == "__main__":
     lotto = AboardLotto()
     lotto.save_to_json()
+
